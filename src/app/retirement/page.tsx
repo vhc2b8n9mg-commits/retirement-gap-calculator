@@ -85,7 +85,6 @@ interface LifeChoiceState {
 
 type WizardStep =
   | "basic"
-  | "healthCheck"
   | "retirement"
   | "incomeReserve"
   | "overview"
@@ -105,7 +104,6 @@ type WizardStep =
 
 const wizardOrder: WizardStep[] = [
   "basic",
-  "healthCheck",
   "retirement",
   "incomeReserve",
   "overview",
@@ -490,17 +488,9 @@ export default function ElderlyCarePage() {
       {step === "basic" && (
         <BasicInfoStep
           basic={basic}
-          onChange={setBasic}
-          onNext={goNext}
-        />
-      )}
-
-      {step === "healthCheck" && (
-        <HealthCheckStep
           health={health}
-          gender={basic.gender}
-          onChange={setHealth}
-          onPrev={goPrev}
+          onChange={setBasic}
+          onHealthChange={setHealth}
           onNext={goNext}
         />
       )}
@@ -732,8 +722,7 @@ function StepHeader({ step }: { step: WizardStep }) {
 
   const labelMap: Record<WizardStep, string> = {
     basic: "基础信息",
-    healthCheck: "健康检测",
-    retirement: "退休年龄设定" ,
+    retirement: "退休年龄设定",
     incomeReserve: "收入与养老储备",
     overview: "养老数据概览",
     cityChoice: "定居城市",
@@ -893,14 +882,41 @@ function HealthCheckStep({
 
 function BasicInfoStep({
   basic,
+  health,
   onChange,
+  onHealthChange,
   onNext
 }: {
   basic: BasicInfo;
+  health: HealthData;
   onChange: (b: BasicInfo) => void;
+  onHealthChange: (h: HealthData) => void;
   onNext: () => void;
 }) {
   const canNext = basic.age >= 25 && basic.age <= 70;
+
+  // 健康指标计算
+  const bmi = calcBMI(health.weight, health.height);
+  const bmiLabel = bmi < 18.5 ? "偏低" : bmi < 25 ? "正常" : bmi < 28 ? "超重" : "肥胖";
+  const bmiColor = bmi < 18.5 ? "amber" : bmi < 25 ? "emerald" : bmi < 28 ? "amber" : "rose";
+
+  const bpLabel = health.systolicBP < 120 ? "理想" : health.systolicBP < 140 ? "正常偏高" : health.systolicBP < 160 ? "高血压" : "严重高血压";
+  const bpColor = health.systolicBP < 120 ? "emerald" : health.systolicBP < 140 ? "emerald" : health.systolicBP < 160 ? "amber" : "rose";
+
+  const hrLabel = health.restingHR < 60 ? "优秀" : health.restingHR < 75 ? "正常" : health.restingHR < 90 ? "偏快" : "过快";
+  const hrColor = health.restingHR < 60 ? "emerald" : health.restingHR < 75 ? "emerald" : health.restingHR < 90 ? "amber" : "rose";
+
+  const whr = calcWHR(health.waist, health.hip);
+  const whrRisk = basic.gender === "female" ? 0.8 : 0.9;
+  const whrHigh = basic.gender === "female" ? 0.85 : 0.95;
+  const whrLabel = whr < whrRisk ? "理想" : whr < whrHigh ? "偏高" : "中心性肥胖";
+  const whrColor = whr < whrRisk ? "emerald" : whr < whrHigh ? "amber" : "rose";
+
+  const colorMap: Record<string, string> = {
+    emerald: "border-emerald-200 bg-emerald-50 text-emerald-700",
+    amber: "border-amber-200 bg-amber-50 text-amber-700",
+    rose: "border-rose-200 bg-rose-50 text-rose-700"
+  };
 
   return (
     <Card>
@@ -909,147 +925,215 @@ function BasicInfoStep({
       </CardHeader>
       <CardContent className="space-y-4">
         <p className="text-sm text-slate-600">
-          只需回答几个简单问题，系统会结合地区、年龄与生活方式，为您生成专属的
+          只需回答几个简单问题，系统会结合地区、年龄、生活方式与健康检测数据，为您生成专属的
           预期寿命与健康寿命假设，后续所有测算都会基于这些数据完成。
         </p>
-        <div className="grid gap-4 md:grid-cols-2 text-xs">
-          <div className="space-y-2">
-            <label className="block text-slate-500">当前年龄</label>
-            <input
-              type="number"
-              value={basic.age}
-              min={25}
-              max={70}
-              onChange={(e) =>
-                onChange({
-                  ...basic,
-                  age: Number(e.target.value) || 0
-                })
-              }
-              className="w-full rounded-lg border border-slate-200 px-2 py-1.5 text-sm"
-            />
-            <label className="block text-slate-500">性别</label>
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => onChange({ ...basic, gender: "male" })}
-                className={`flex-1 rounded-lg border px-2 py-1.5 ${
-                  basic.gender === "male"
-                    ? "border-blue-500 bg-blue-50 text-blue-700"
-                    : "border-slate-200 text-slate-600"
-                } text-sm`}
-              >
-                男性
-              </button>
-              <button
-                type="button"
-                onClick={() => onChange({ ...basic, gender: "female" })}
-                className={`flex-1 rounded-lg border px-2 py-1.5 ${
-                  basic.gender === "female"
-                    ? "border-blue-500 bg-blue-50 text-blue-700"
-                    : "border-slate-200 text-slate-600"
-                } text-sm`}
-              >
-                女性
-              </button>
+        
+        {/* 基础信息区域 */}
+        <div className="rounded-xl border border-slate-200 bg-slate-50/40 p-4">
+          <p className="text-xs font-semibold text-slate-700 mb-3">基础信息</p>
+          <div className="grid gap-4 md:grid-cols-2 text-xs">
+            <div className="space-y-2">
+              <label className="block text-slate-500">当前年龄</label>
+              <input
+                type="number"
+                value={basic.age}
+                min={25}
+                max={70}
+                onChange={(e) =>
+                  onChange({
+                    ...basic,
+                    age: Number(e.target.value) || 0
+                  })
+                }
+                className="w-full rounded-lg border border-slate-200 px-2 py-1.5 text-sm"
+              />
+              <label className="block text-slate-500">性别</label>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => onChange({ ...basic, gender: "male" })}
+                  className={`flex-1 rounded-lg border px-2 py-1.5 ${
+                    basic.gender === "male"
+                      ? "border-blue-500 bg-blue-50 text-blue-700"
+                      : "border-slate-200 text-slate-600"
+                  } text-sm`}
+                >
+                  男性
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onChange({ ...basic, gender: "female" })}
+                  className={`flex-1 rounded-lg border px-2 py-1.5 ${
+                    basic.gender === "female"
+                      ? "border-blue-500 bg-blue-50 text-blue-700"
+                      : "border-slate-200 text-slate-600"
+                  } text-sm`}
+                >
+                  女性
+                </button>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <label className="block text-slate-500">主要生活城市</label>
+              <input
+                type="text"
+                value={basic.cityName}
+                placeholder="如：上海、成都等"
+                onChange={(e) =>
+                  onChange({
+                    ...basic,
+                    cityName: e.target.value
+                  })
+                }
+                className="w-full rounded-lg border border-slate-200 px-2 py-1.5 text-sm"
+              />
+              <p className="text-[11px] text-slate-400">
+                城市类型将在后续"定居城市"环节统一选择并用于生活成本测算，
+                这里不再单独询问。
+              </p>
             </div>
           </div>
-          <div className="space-y-2">
-            <label className="block text-slate-500">主要生活城市</label>
-            <input
-              type="text"
-              value={basic.cityName}
-              placeholder="如：上海、成都等"
-              onChange={(e) =>
-                onChange({
-                  ...basic,
-                  cityName: e.target.value
-                })
-              }
-              className="w-full rounded-lg border border-slate-200 px-2 py-1.5 text-sm"
-            />
-            <p className="text-[11px] text-slate-400">
-              城市类型将在后续"定居城市"环节统一选择并用于生活成本测算，
-              这里不再单独询问。
-            </p>
+
+          <div className="grid gap-4 md:grid-cols-2 text-xs mt-4">
+            <div className="space-y-2">
+              <label className="block text-slate-500">生活习惯（可多选）</label>
+              <div className="grid grid-cols-2 gap-1.5">
+                {[
+                  ["noSmoke", "不吸烟"],
+                  ["lessDrink", "少饮酒"],
+                  ["exercise", "规律运动"],
+                  ["social", "常与朋友社交"],
+                  ["normalSugar", "血糖基本正常"],
+                  ["regularCheck", "定期体检"]
+                ].map(([key, label]) => {
+                  const checked = basic.habits.includes(key as HabitKey);
+                  return (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => {
+                        const exists = checked;
+                        onChange({
+                          ...basic,
+                          habits: exists
+                            ? basic.habits.filter((h) => h !== key)
+                            : [...basic.habits, key as HabitKey]
+                        });
+                      }}
+                      className={`rounded-full border px-2 py-1 text-[11px] ${
+                        checked
+                          ? "border-emerald-500 bg-emerald-50 text-emerald-700"
+                          : "border-slate-200 text-slate-600"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="space-y-2">
+              <label className="block text-slate-500">家庭与职业</label>
+              <select
+                value={basic.familyStatus}
+                onChange={(e) =>
+                  onChange({
+                    ...basic,
+                    familyStatus: e.target
+                      .value as BasicInfo["familyStatus"]
+                  })
+                }
+                className="mb-1 w-full rounded-lg border border-slate-200 px-2 py-1.5 text-sm"
+              >
+                <option value="single">单身</option>
+                <option value="marriedNoKid">已婚未育</option>
+                <option value="marriedWithKid">已婚有子女</option>
+                <option value="other">其他/不便透露</option>
+              </select>
+              <select
+                value={basic.jobType}
+                onChange={(e) =>
+                  onChange({
+                    ...basic,
+                    jobType: e.target.value as BasicInfo["jobType"]
+                  })
+                }
+                className="w-full rounded-lg border border-slate-200 px-2 py-1.5 text-sm"
+              >
+                <option value="employee">受薪族</option>
+                <option value="self">个体经营</option>
+                <option value="freelance">自由职业</option>
+                <option value="other">其他</option>
+              </select>
+              <p className="mt-1 text-[11px] text-slate-400">
+                不同家庭结构与职业，对养老安全感和对孩子的期望不同，
+                也会影响后续"梦想线"和"传承安排"的侧重点。
+              </p>
+            </div>
           </div>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 text-xs">
-          <div className="space-y-2">
-            <label className="block text-slate-500">生活习惯（可多选）</label>
-            <div className="grid grid-cols-2 gap-1.5">
-              {[
-                ["noSmoke", "不吸烟"],
-                ["lessDrink", "少饮酒"],
-                ["exercise", "规律运动"],
-                ["social", "常与朋友社交"],
-                ["normalSugar", "血糖基本正常"],
-                ["regularCheck", "定期体检"]
-              ].map(([key, label]) => {
-                const checked = basic.habits.includes(key as HabitKey);
-                return (
-                  <button
-                    key={key}
-                    type="button"
-                    onClick={() => {
-                      const exists = checked;
-                      onChange({
-                        ...basic,
-                        habits: exists
-                          ? basic.habits.filter((h) => h !== key)
-                          : [...basic.habits, key as HabitKey]
-                      });
-                    }}
-                    className={`rounded-full border px-2 py-1 text-[11px] ${
-                      checked
-                        ? "border-emerald-500 bg-emerald-50 text-emerald-700"
-                        : "border-slate-200 text-slate-600"
-                    }`}
-                  >
-                    {label}
-                  </button>
-                );
-              })}
+        {/* 健康检测数据区域 */}
+        <div className="rounded-xl border border-blue-100 bg-blue-50/30 p-4">
+          <p className="text-xs font-semibold text-blue-800 mb-3">健康中心检测数据</p>
+          <p className="text-[11px] text-blue-600 mb-3">
+            请将健康中心检测结果填入下方，系统将结合这些数据为您生成更精准的预期寿命评估。
+          </p>
+          
+          <div className="grid gap-3 md:grid-cols-2 text-xs">
+            {/* BMI */}
+            <div className="rounded-lg border border-slate-200 bg-white p-3 space-y-2">
+              <p className="font-medium text-slate-700">体重指数（BMI）<span className="font-normal text-slate-400 ml-1 text-[10px]">参考：Lancet 2016</span></p>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="space-y-1">
+                  <label className="text-slate-500">身高（cm）</label>
+                  <input type="number" value={health.height} min={140} max={210} onChange={(e) => onHealthChange({ ...health, height: Number(e.target.value) })} className="w-full rounded-lg border border-slate-200 px-2 py-1" />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-slate-500">体重（kg）</label>
+                  <input type="number" value={health.weight} min={30} max={200} onChange={(e) => onHealthChange({ ...health, weight: Number(e.target.value) })} className="w-full rounded-lg border border-slate-200 px-2 py-1" />
+                </div>
+              </div>
+              <div className={"rounded-lg border px-2 py-1 " + colorMap[bmiColor]}>BMI = <strong>{bmi}</strong>　{bmiLabel}</div>
             </div>
-          </div>
-          <div className="space-y-2">
-            <label className="block text-slate-500">家庭与职业</label>
-            <select
-              value={basic.familyStatus}
-              onChange={(e) =>
-                onChange({
-                  ...basic,
-                  familyStatus: e.target
-                    .value as BasicInfo["familyStatus"]
-                })
-              }
-              className="mb-1 w-full rounded-lg border border-slate-200 px-2 py-1.5 text-sm"
-            >
-              <option value="single">单身</option>
-              <option value="marriedNoKid">已婚未育</option>
-              <option value="marriedWithKid">已婚有子女</option>
-              <option value="other">其他/不便透露</option>
-            </select>
-            <select
-              value={basic.jobType}
-              onChange={(e) =>
-                onChange({
-                  ...basic,
-                  jobType: e.target.value as BasicInfo["jobType"]
-                })
-              }
-              className="w-full rounded-lg border border-slate-200 px-2 py-1.5 text-sm"
-            >
-              <option value="employee">受薪族</option>
-              <option value="self">个体经营</option>
-              <option value="freelance">自由职业</option>
-              <option value="other">其他</option>
-            </select>
-            <p className="mt-1 text-[11px] text-slate-400">
-              不同家庭结构与职业，对养老安全感和对孩子的期望不同，
-              也会影响后续"梦想线"和"传承安排"的侧重点。
-            </p>
+
+            {/* 血压 */}
+            <div className="rounded-lg border border-slate-200 bg-white p-3 space-y-2">
+              <p className="font-medium text-slate-700">收缩压<span className="font-normal text-slate-400 ml-1 text-[10px]">参考：Framingham研究</span></p>
+              <div className="space-y-1">
+                <label className="text-slate-500">收缩压（mmHg）</label>
+                <input type="number" value={health.systolicBP} min={80} max={220} onChange={(e) => onHealthChange({ ...health, systolicBP: Number(e.target.value) })} className="w-full rounded-lg border border-slate-200 px-2 py-1" />
+              </div>
+              <div className={"rounded-lg border px-2 py-1 " + colorMap[bpColor]}><strong>{health.systolicBP}</strong> mmHg　{bpLabel}</div>
+            </div>
+
+            {/* 心率 */}
+            <div className="rounded-lg border border-slate-200 bg-white p-3 space-y-2">
+              <p className="font-medium text-slate-700">静息心率<span className="font-normal text-slate-400 ml-1 text-[10px]">参考：JAMA Cardiology 2019</span></p>
+              <div className="space-y-1">
+                <label className="text-slate-500">静息心率（bpm）</label>
+                <input type="number" value={health.restingHR} min={40} max={130} onChange={(e) => onHealthChange({ ...health, restingHR: Number(e.target.value) })} className="w-full rounded-lg border border-slate-200 px-2 py-1" />
+              </div>
+              <div className={"rounded-lg border px-2 py-1 " + colorMap[hrColor]}><strong>{health.restingHR}</strong> bpm　{hrLabel}</div>
+            </div>
+
+            {/* 腰臀比 */}
+            <div className="rounded-lg border border-slate-200 bg-white p-3 space-y-2">
+              <p className="font-medium text-slate-700">腰臀比<span className="font-normal text-slate-400 ml-1 text-[10px]">参考：WHO标准</span></p>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="space-y-1">
+                  <label className="text-slate-500">腰围（cm）</label>
+                  <input type="number" value={health.waist} min={50} max={160} onChange={(e) => onHealthChange({ ...health, waist: Number(e.target.value) })} className="w-full rounded-lg border border-slate-200 px-2 py-1" />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-slate-500">臀围（cm）</label>
+                  <input type="number" value={health.hip} min={60} max={180} onChange={(e) => onHealthChange({ ...health, hip: Number(e.target.value) })} className="w-full rounded-lg border border-slate-200 px-2 py-1" />
+                </div>
+              </div>
+              <p className="text-[10px] text-slate-400">{basic.gender === "female" ? "女性：腰臀比&lt;0.8理想，≥0.85为中心性肥胖" : "男性：腰臀比&lt;0.9理想，≥0.95为中心性肥胖"}</p>
+              <div className={"rounded-lg border px-2 py-1 " + colorMap[whrColor]}>腰臀比 = <strong>{whr}</strong>　{whrLabel}</div>
+            </div>
           </div>
         </div>
 
@@ -1315,7 +1399,27 @@ function OverviewStep({
           为您推演出一个预期寿命与健康寿命区间。您也可以根据自己的判断，在下方手动微调。
         </p>
 
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2">
+          {/* 健康评分 - 放在最前面 */}
+          <button
+            type="button"
+            onClick={() => setExplainOpen("healthScore")}
+            className="space-y-2 rounded-xl border border-purple-200 bg-purple-50/60 p-3 text-left transition hover:bg-purple-50"
+          >
+            <p className="text-[11px] text-purple-700">健康评分</p>
+            <div className="flex items-baseline gap-2">
+              <span className="text-2xl font-bold text-purple-900">{healthScore}</span>
+              <span className="text-sm text-purple-700">分</span>
+              <span className="text-xs px-2 py-0.5 rounded-full bg-purple-200 text-purple-800">{healthGrade}</span>
+            </div>
+            <p className="text-[11px] text-purple-700/80">
+              根据您的健康检测数据综合评估
+            </p>
+            <p className="text-[11px] text-purple-600">
+              点击查看评分详情与改善建议
+            </p>
+          </button>
+
           <button
             type="button"
             onClick={() => setExplainOpen("life")}
@@ -1392,26 +1496,6 @@ function OverviewStep({
             </p>
             <p className="text-[11px] text-sky-700/80">
               点击查看测算逻辑说明
-            </p>
-          </button>
-
-          {/* 健康评分 */}
-          <button
-            type="button"
-            onClick={() => setExplainOpen("healthScore")}
-            className="space-y-2 rounded-xl border border-purple-200 bg-purple-50/60 p-3 text-left transition hover:bg-purple-50"
-          >
-            <p className="text-[11px] text-purple-700">健康评分</p>
-            <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-bold text-purple-900">{healthScore}</span>
-              <span className="text-sm text-purple-700">分</span>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-purple-200 text-purple-800">{healthGrade}</span>
-            </div>
-            <p className="text-[11px] text-purple-700/80">
-              根据您的健康检测数据综合评估
-            </p>
-            <p className="text-[11px] text-purple-600">
-              点击查看评分详情与改善建议
             </p>
           </button>
         </div>
