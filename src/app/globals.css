@@ -3,11 +3,153 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #0f172a;
+  --background: #0f0f1a;
+  --foreground: #f8fafc;
+  --card-bg: rgba(30, 30, 50, 0.6);
+  --card-border: rgba(100, 100, 150, 0.3);
+  --accent-primary: #6366f1;
+  --accent-secondary: #8b5cf6;
+  --accent-tertiary: #a855f7;
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+  min-height: 100vh;
+}
+
+/* 玻璃态卡片效果 */
+.glass-card {
+  background: rgba(30, 30, 50, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(100, 100, 150, 0.3);
+  border-radius: 20px;
+}
+
+/* 渐变按钮 */
+.gradient-btn {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+  border: none;
+  color: white;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.gradient-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+}
+
+/* 输入框深色主题 */
+.dark-input {
+  background: rgba(15, 15, 26, 0.8);
+  border: 1px solid rgba(100, 100, 150, 0.4);
+  color: #f8fafc;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.dark-input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  outline: none;
+}
+
+.dark-input::placeholder {
+  color: rgba(148, 163, 184, 0.6);
+}
+
+/* 选择框深色主题 */
+.dark-select {
+  background: rgba(15, 15, 26, 0.8);
+  border: 1px solid rgba(100, 100, 150, 0.4);
+  color: #f8fafc;
+  border-radius: 12px;
+}
+
+/* 标签按钮 */
+.tag-btn {
+  background: rgba(30, 30, 50, 0.5);
+  border: 1px solid rgba(100, 100, 150, 0.3);
+  color: rgba(248, 250, 252, 0.8);
+  border-radius: 20px;
+  transition: all 0.2s ease;
+}
+
+.tag-btn:hover {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.5);
+}
+
+.tag-btn.active {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(139, 92, 246, 0.3) 100%);
+  border-color: #8b5cf6;
+  color: #f8fafc;
+}
+
+/* 步骤指示器 */
+.step-indicator {
+  background: rgba(30, 30, 50, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(100, 100, 150, 0.3);
+  border-radius: 30px;
+}
+
+/* 信息卡片悬停效果 */
+.info-card {
+  background: rgba(30, 30, 50, 0.4);
+  border: 1px solid rgba(100, 100, 150, 0.2);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.info-card:hover {
+  background: rgba(30, 30, 50, 0.6);
+  border-color: rgba(100, 100, 150, 0.4);
+  transform: translateY(-2px);
+}
+
+/* 渐变装饰背景 */
+.gradient-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.gradient-orb-1 {
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  top: -100px;
+  right: -100px;
+}
+
+.gradient-orb-2 {
+  width: 300px;
+  height: 300px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+  bottom: -50px;
+  left: -50px;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 15, 26, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 100, 150, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.6);
 }

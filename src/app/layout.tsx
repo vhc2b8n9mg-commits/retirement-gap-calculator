@@ -13,7 +13,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN">
-      <body className="antialiased bg-slate-50 min-h-screen">
+      <body className="antialiased min-h-screen relative overflow-x-hidden">
+        {/* 背景装饰 */}
+        <div className="gradient-orb gradient-orb-1"></div>
+        <div className="gradient-orb gradient-orb-2"></div>
         {children}
       </body>
     </html>
