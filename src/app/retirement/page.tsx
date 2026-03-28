@@ -469,6 +469,31 @@ export default function ElderlyCarePage() {
 
   return (
     <main className="relative z-10 mx-auto flex min-h-screen max-w-5xl flex-col gap-6 px-4 py-8">
+      {/* 全局背景图 - 步骤5-16显示 */}
+      {["cityChoice", "living", "food", "supplement", "travel", "inflation", "hobby", "gift", "medical", "care", "teeth", "endOfLife"].includes(step) && (
+        <div 
+          className="fixed inset-0 -z-10 bg-cover bg-center"
+          style={{ 
+            backgroundImage: ({
+              cityChoice: "url('/backgrounds/step5-city-photo2.jpg')",
+              living: "url('/backgrounds/step6-living.jpg')",
+              food: "url('/backgrounds/step7-food.jpg')",
+              supplement: "url('/backgrounds/step8-supplement.jpg')",
+              travel: "url('/backgrounds/step9-travel.jpg')",
+              inflation: "url('/backgrounds/step10-inflation.jpg')",
+              hobby: "url('/backgrounds/step11-hobby.jpg')",
+              gift: "url('/backgrounds/step12-gift.jpg')",
+              medical: "url('/backgrounds/step13-medical.jpg')",
+              care: "url('/backgrounds/step14-care.jpg')",
+              teeth: "url('/backgrounds/step15-teeth.jpg')",
+              endOfLife: "url('/backgrounds/step16-endoflife.jpg')"
+            } as Record<string, string>)[step]
+          }}
+        >
+          <div className="absolute inset-0 bg-slate-900/30"></div>
+        </div>
+      )}
+      
       <header className="mb-2">
         <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-purple-400">
           RETIREMENT GAP LAB
@@ -1752,18 +1777,18 @@ function CityStep(props: LifeStepProps) {
   } = props;
 
   return (
-    <ScenarioCard
-      title="您理想中的养老定居城市是？"
-      description="不同城市只是费用水平不同，没有绝对的好坏之分。关键是：用您能接受的成本，换自己喜欢的生活节奏。"
-      scenarioAge={retire.retireAge}
-      monthlyNeed={monthlyNeed}
-      basePensionMonthly={basePensionMonthly}
-      overSpend={overSpend}
-      onPrev={onPrev}
-      onNext={onNext}
-      confirmLabel="确认选择"
-      showPrev
-    >
+        <ScenarioCard
+          title="您理想中的养老定居城市是？"
+          description="不同城市只是费用水平不同，没有绝对的好坏之分。关键是：用您能接受的成本，换自己喜欢的生活节奏。"
+          scenarioAge={retire.retireAge}
+          monthlyNeed={monthlyNeed}
+          basePensionMonthly={basePensionMonthly}
+          overSpend={overSpend}
+          onPrev={onPrev}
+          onNext={onNext}
+          confirmLabel="确认选择"
+          showPrev
+        >
       <div className="grid gap-3 md:grid-cols-3 text-xs">
         <CityOption
           active={life.cityChoice === "rural"}
@@ -1788,7 +1813,7 @@ function CityStep(props: LifeStepProps) {
         当前假设：您将在 {retire.retireAge} 岁左右在此城市进入正式退休状态。
         后续所有花费将基于该城市的平均生活成本水平估算。
       </p>
-    </ScenarioCard>
+        </ScenarioCard>
   );
 }
 
