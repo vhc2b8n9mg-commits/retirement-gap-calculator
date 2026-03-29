@@ -501,7 +501,7 @@ export default function ElderlyCarePage() {
         <h1 className="text-2xl font-bold text-slate-100 md:text-3xl">
           线上养老储备测算与缺口唤醒工具
         </h1>
-        <p className="mt-3 max-w-3xl text-sm text-slate-400 leading-relaxed">
+        <p className="mt-3 max-w-3xl text-sm text-slate-300 leading-relaxed">
           模拟您未来的养老方式与花费结构，测算养老资金缺口，把"要不要准备养老钱"
           转化为"为了体面、有尊严、实现梦想，需要补齐多少储备"，
           方便与专业顾问进一步讨论年金、养老年金、增额终身寿险与杠杆终身寿险方案。
@@ -768,7 +768,7 @@ function StepHeader({ step }: { step: WizardStep }) {
   return (
     <div className="step-indicator mb-4 flex items-center justify-between px-5 py-3">
       <div>
-        <p className="text-[11px] text-slate-400">
+        <p className="text-[11px] text-slate-300">
           步骤 {index} / {total}
         </p>
         <p className="text-sm font-semibold text-slate-200">
@@ -821,8 +821,8 @@ function HealthCheckStep({
   const whrColor = whr < whrRisk ? "emerald" : whr < whrHigh ? "amber" : "rose";
 
   const colorMap: Record<string, string> = {
-    emerald: "border-emerald-500/50 bg-emerald-500/20 text-emerald-300",
-    amber: "border-amber-500/50 bg-amber-500/20 text-amber-300",
+    emerald: "border-emerald-500/50 bg-emerald-900/600/20 text-emerald-300",
+    amber: "border-amber-500/50 bg-amber-900/600/20 text-amber-300",
     rose: "border-rose-500/50 bg-rose-500/20 text-rose-300"
   };
 
@@ -832,21 +832,21 @@ function HealthCheckStep({
         <CardTitle>健康中心检测数据录入</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <p className="text-sm text-slate-400">
+        <p className="text-sm text-slate-300">
           请将健康中心检测结果填入下方。系统将结合这些数据，为您生成更精准的预期寿命与健康寿命评估。
         </p>
 
         <div className="grid gap-4 md:grid-cols-2 text-xs">
           {/* BMI */}
-          <div className="rounded-xl border border-slate-200 bg-slate-50/60 p-4 space-y-2">
-            <p className="font-semibold text-slate-300">体重指数（BMI）<span className="font-normal text-slate-400 ml-1">- 参考：Lancet 2016</span></p>
+          <div className="rounded-xl border border-slate-600/50 bg-slate-800/60 p-4 space-y-2">
+            <p className="font-semibold text-slate-300">体重指数（BMI）<span className="font-normal text-slate-300 ml-1">- 参考：Lancet 2016</span></p>
             <div className="grid grid-cols-2 gap-2">
               <div className="space-y-1">
-                <label className="text-slate-400">身高（cm）</label>
+                <label className="text-slate-300">身高（cm）</label>
                 <input type="number" value={health.height} min={140} max={210} onChange={(e) => onChange({ ...health, height: Number(e.target.value) })} className="w-full dark-input px-3 py-2" />
               </div>
               <div className="space-y-1">
-                <label className="text-slate-400">体重（kg）</label>
+                <label className="text-slate-300">体重（kg）</label>
                 <input type="number" value={health.weight} min={30} max={200} onChange={(e) => onChange({ ...health, weight: Number(e.target.value) })} className="w-full dark-input px-3 py-2" />
               </div>
             </div>
@@ -854,39 +854,39 @@ function HealthCheckStep({
           </div>
 
           {/* 血压 */}
-          <div className="rounded-xl border border-slate-200 bg-slate-50/60 p-4 space-y-2">
-            <p className="font-semibold text-slate-300">收缩压<span className="font-normal text-slate-400 ml-1">- 参考：Framingham研究</span></p>
+          <div className="rounded-xl border border-slate-600/50 bg-slate-800/60 p-4 space-y-2">
+            <p className="font-semibold text-slate-300">收缩压<span className="font-normal text-slate-300 ml-1">- 参考：Framingham研究</span></p>
             <div className="space-y-1">
-              <label className="text-slate-400">收缩压（mmHg）</label>
+              <label className="text-slate-300">收缩压（mmHg）</label>
               <input type="number" value={health.systolicBP} min={80} max={220} onChange={(e) => onChange({ ...health, systolicBP: Number(e.target.value) })} className="w-full dark-input px-3 py-2" />
             </div>
             <div className={"rounded-lg border px-3 py-2 " + colorMap[bpColor]}><strong>{health.systolicBP}</strong> mmHg  {bpLabel}</div>
           </div>
 
           {/* 心率 */}
-          <div className="rounded-xl border border-slate-200 bg-slate-50/60 p-4 space-y-2">
-            <p className="font-semibold text-slate-300">静息心率<span className="font-normal text-slate-400 ml-1">- 参考：JAMA Cardiology 2019</span></p>
+          <div className="rounded-xl border border-slate-600/50 bg-slate-800/60 p-4 space-y-2">
+            <p className="font-semibold text-slate-300">静息心率<span className="font-normal text-slate-300 ml-1">- 参考：JAMA Cardiology 2019</span></p>
             <div className="space-y-1">
-              <label className="text-slate-400">静息心率（bpm）</label>
+              <label className="text-slate-300">静息心率（bpm）</label>
               <input type="number" value={health.restingHR} min={40} max={130} onChange={(e) => onChange({ ...health, restingHR: Number(e.target.value) })} className="w-full dark-input px-3 py-2" />
             </div>
             <div className={"rounded-lg border px-3 py-2 " + colorMap[hrColor]}><strong>{health.restingHR}</strong> bpm  {hrLabel}</div>
           </div>
 
           {/* 腰臀比 */}
-          <div className="rounded-xl border border-slate-200 bg-slate-50/60 p-4 space-y-2">
-            <p className="font-semibold text-slate-300">腰臀比<span className="font-normal text-slate-400 ml-1">- 参考：WHO标准</span></p>
+          <div className="rounded-xl border border-slate-600/50 bg-slate-800/60 p-4 space-y-2">
+            <p className="font-semibold text-slate-300">腰臀比<span className="font-normal text-slate-300 ml-1">- 参考：WHO标准</span></p>
             <div className="grid grid-cols-2 gap-2">
               <div className="space-y-1">
-                <label className="text-slate-400">腰围（cm）</label>
+                <label className="text-slate-300">腰围（cm）</label>
                 <input type="number" value={health.waist} min={50} max={160} onChange={(e) => onChange({ ...health, waist: Number(e.target.value) })} className="w-full dark-input px-3 py-2" />
               </div>
               <div className="space-y-1">
-                <label className="text-slate-400">臀围（cm）</label>
+                <label className="text-slate-300">臀围（cm）</label>
                 <input type="number" value={health.hip} min={60} max={180} onChange={(e) => onChange({ ...health, hip: Number(e.target.value) })} className="w-full dark-input px-3 py-2" />
               </div>
             </div>
-            <p className="text-[10px] text-slate-400">{gender === "female" ? "女性：腰臀比&lt;0.8理想，>=0.85为中心性肥胖" : "男性：腰臀比&lt;0.9理想，>=0.95为中心性肥胖"}</p>
+            <p className="text-[10px] text-slate-300">{gender === "female" ? "女性：腰臀比&lt;0.8理想，>=0.85为中心性肥胖" : "男性：腰臀比&lt;0.9理想，>=0.95为中心性肥胖"}</p>
             <div className={"rounded-lg border px-3 py-2 " + colorMap[whrColor]}>腰臀比 = <strong>{whr}</strong>  {whrLabel}</div>
           </div>
         </div>
@@ -938,8 +938,8 @@ function BasicInfoStep({
   const whrColor = whr < whrRisk ? "emerald" : whr < whrHigh ? "amber" : "rose";
 
   const colorMap: Record<string, string> = {
-    emerald: "border-emerald-500/50 bg-emerald-500/20 text-emerald-300",
-    amber: "border-amber-500/50 bg-amber-500/20 text-amber-300",
+    emerald: "border-emerald-500/50 bg-emerald-900/600/20 text-emerald-300",
+    amber: "border-amber-500/50 bg-amber-900/600/20 text-amber-300",
     rose: "border-rose-500/50 bg-rose-500/20 text-rose-300"
   };
 
@@ -949,17 +949,17 @@ function BasicInfoStep({
         <CardTitle>先了解一下您的基本情况</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <p className="text-sm text-slate-400">
+        <p className="text-sm text-slate-300">
           只需回答几个简单问题，系统会结合地区、年龄、生活方式与健康检测数据，为您生成专属的
           预期寿命与健康寿命假设，后续所有测算都会基于这些数据完成。
         </p>
         
         {/* 基础信息区域 */}
         <div className="rounded-2xl border border-slate-600/30 bg-slate-800/30 p-5 backdrop-blur-sm">
-          <p className="text-xs font-semibold text-slate-700 mb-3">基础信息</p>
+          <p className="text-xs font-semibold text-slate-400 mb-3">基础信息</p>
           <div className="grid gap-4 md:grid-cols-2 text-xs">
             <div className="space-y-2">
-              <label className="block text-slate-400">当前年龄</label>
+              <label className="block text-slate-300">当前年龄</label>
               <input
                 type="number"
                 value={basic.age}
@@ -973,15 +973,15 @@ function BasicInfoStep({
                 }
                 className="w-full dark-select px-3 py-2 text-sm"
               />
-              <label className="block text-slate-400">性别</label>
+              <label className="block text-slate-300">性别</label>
               <div className="flex gap-2">
                 <button
                   type="button"
                   onClick={() => onChange({ ...basic, gender: "male" })}
                   className={`flex-1 rounded-lg border px-2 py-1.5 ${
                     basic.gender === "male"
-                      ? "border-blue-500 bg-blue-50 text-blue-300"
-                      : "border-slate-200 text-slate-400"
+                      ? "border-blue-500 bg-blue-900/60 text-blue-300"
+                      : "border-slate-500 text-slate-300"
                   } text-sm`}
                 >
                   男性
@@ -991,8 +991,8 @@ function BasicInfoStep({
                   onClick={() => onChange({ ...basic, gender: "female" })}
                   className={`flex-1 rounded-lg border px-2 py-1.5 ${
                     basic.gender === "female"
-                      ? "border-blue-500 bg-blue-50 text-blue-300"
-                      : "border-slate-200 text-slate-400"
+                      ? "border-blue-500 bg-blue-900/60 text-blue-300"
+                      : "border-slate-500 text-slate-300"
                   } text-sm`}
                 >
                   女性
@@ -1000,7 +1000,7 @@ function BasicInfoStep({
               </div>
             </div>
             <div className="space-y-2">
-              <label className="block text-slate-400">主要生活城市</label>
+              <label className="block text-slate-300">主要生活城市</label>
               <input
                 type="text"
                 value={basic.cityName}
@@ -1013,7 +1013,7 @@ function BasicInfoStep({
                 }
                 className="w-full dark-select px-3 py-2 text-sm"
               />
-              <p className="text-[11px] text-slate-400">
+              <p className="text-[11px] text-slate-300">
                 城市类型将在后续"定居城市"环节统一选择并用于生活成本测算，
                 这里不再单独询问。
               </p>
@@ -1022,7 +1022,7 @@ function BasicInfoStep({
 
           <div className="grid gap-4 md:grid-cols-2 text-xs mt-4">
             <div className="space-y-2">
-              <label className="block text-slate-400">生活习惯（可多选）</label>
+              <label className="block text-slate-300">生活习惯（可多选）</label>
               <div className="grid grid-cols-2 gap-1.5">
                 {[
                   ["noSmoke", "不吸烟"],
@@ -1048,8 +1048,8 @@ function BasicInfoStep({
                       }}
                       className={`tag-btn px-3 py-1.5 text-[11px] ${
                         checked
-                          ? "border-emerald-500 bg-emerald-50 text-emerald-300"
-                          : "border-slate-200 text-slate-400"
+                          ? "border-emerald-500 bg-emerald-900/60 text-emerald-300"
+                          : "border-slate-500 text-slate-300"
                       }`}
                     >
                       {label}
@@ -1059,7 +1059,7 @@ function BasicInfoStep({
               </div>
             </div>
             <div className="space-y-2">
-              <label className="block text-slate-400">家庭与职业</label>
+              <label className="block text-slate-300">家庭与职业</label>
               <select
                 value={basic.familyStatus}
                 onChange={(e) =>
@@ -1091,7 +1091,7 @@ function BasicInfoStep({
                 <option value="freelance">自由职业</option>
                 <option value="other">其他</option>
               </select>
-              <p className="mt-1 text-[11px] text-slate-400">
+              <p className="mt-1 text-[11px] text-slate-300">
                 不同家庭结构与职业，对养老安全感和对孩子的期望不同，
                 也会影响后续"梦想线"和"传承安排"的侧重点。
               </p>
@@ -1109,14 +1109,14 @@ function BasicInfoStep({
           <div className="grid gap-3 md:grid-cols-2 text-xs">
             {/* BMI */}
             <div className="rounded-xl border border-slate-600/30 bg-slate-800/40 p-4 space-y-2 backdrop-blur-sm">
-              <p className="font-medium text-slate-300">体重指数（BMI）<span className="font-normal text-slate-400 ml-1 text-[10px]">参考：Lancet 2016</span></p>
+              <p className="font-medium text-slate-300">体重指数（BMI）<span className="font-normal text-slate-300 ml-1 text-[10px]">参考：Lancet 2016</span></p>
               <div className="grid grid-cols-2 gap-2">
                 <div className="space-y-1">
-                  <label className="text-slate-400">身高（cm）</label>
+                  <label className="text-slate-300">身高（cm）</label>
                   <input type="number" value={health.height} min={140} max={210} onChange={(e) => onHealthChange({ ...health, height: Number(e.target.value) })} className="w-full dark-input px-3 py-2" />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-slate-400">体重（kg）</label>
+                  <label className="text-slate-300">体重（kg）</label>
                   <input type="number" value={health.weight} min={30} max={200} onChange={(e) => onHealthChange({ ...health, weight: Number(e.target.value) })} className="w-full dark-input px-3 py-2" />
                 </div>
               </div>
@@ -1125,9 +1125,9 @@ function BasicInfoStep({
 
             {/* 血压 */}
             <div className="rounded-xl border border-slate-600/30 bg-slate-800/40 p-4 space-y-2 backdrop-blur-sm">
-              <p className="font-medium text-slate-300">收缩压<span className="font-normal text-slate-400 ml-1 text-[10px]">参考：Framingham研究</span></p>
+              <p className="font-medium text-slate-300">收缩压<span className="font-normal text-slate-300 ml-1 text-[10px]">参考：Framingham研究</span></p>
               <div className="space-y-1">
-                <label className="text-slate-400">收缩压（mmHg）</label>
+                <label className="text-slate-300">收缩压（mmHg）</label>
                 <input type="number" value={health.systolicBP} min={80} max={220} onChange={(e) => onHealthChange({ ...health, systolicBP: Number(e.target.value) })} className="w-full dark-input px-3 py-2" />
               </div>
               <div className={"rounded-lg border px-2 py-1 " + colorMap[bpColor]}><strong>{health.systolicBP}</strong> mmHg　{bpLabel}</div>
@@ -1135,9 +1135,9 @@ function BasicInfoStep({
 
             {/* 心率 */}
             <div className="rounded-xl border border-slate-600/30 bg-slate-800/40 p-4 space-y-2 backdrop-blur-sm">
-              <p className="font-medium text-slate-300">静息心率<span className="font-normal text-slate-400 ml-1 text-[10px]">参考：JAMA Cardiology 2019</span></p>
+              <p className="font-medium text-slate-300">静息心率<span className="font-normal text-slate-300 ml-1 text-[10px]">参考：JAMA Cardiology 2019</span></p>
               <div className="space-y-1">
-                <label className="text-slate-400">静息心率（bpm）</label>
+                <label className="text-slate-300">静息心率（bpm）</label>
                 <input type="number" value={health.restingHR} min={40} max={130} onChange={(e) => onHealthChange({ ...health, restingHR: Number(e.target.value) })} className="w-full dark-input px-3 py-2" />
               </div>
               <div className={"rounded-lg border px-2 py-1 " + colorMap[hrColor]}><strong>{health.restingHR}</strong> bpm　{hrLabel}</div>
@@ -1145,18 +1145,18 @@ function BasicInfoStep({
 
             {/* 腰臀比 */}
             <div className="rounded-xl border border-slate-600/30 bg-slate-800/40 p-4 space-y-2 backdrop-blur-sm">
-              <p className="font-medium text-slate-300">腰臀比<span className="font-normal text-slate-400 ml-1 text-[10px]">参考：WHO标准</span></p>
+              <p className="font-medium text-slate-300">腰臀比<span className="font-normal text-slate-300 ml-1 text-[10px]">参考：WHO标准</span></p>
               <div className="grid grid-cols-2 gap-2">
                 <div className="space-y-1">
-                  <label className="text-slate-400">腰围（cm）</label>
+                  <label className="text-slate-300">腰围（cm）</label>
                   <input type="number" value={health.waist} min={50} max={160} onChange={(e) => onHealthChange({ ...health, waist: Number(e.target.value) })} className="w-full dark-input px-3 py-2" />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-slate-400">臀围（cm）</label>
+                  <label className="text-slate-300">臀围（cm）</label>
                   <input type="number" value={health.hip} min={60} max={180} onChange={(e) => onHealthChange({ ...health, hip: Number(e.target.value) })} className="w-full dark-input px-3 py-2" />
                 </div>
               </div>
-              <p className="text-[10px] text-slate-400">{basic.gender === "female" ? "女性：腰臀比&lt;0.8理想，≥0.85为中心性肥胖" : "男性：腰臀比&lt;0.9理想，≥0.95为中心性肥胖"}</p>
+              <p className="text-[10px] text-slate-300">{basic.gender === "female" ? "女性：腰臀比&lt;0.8理想，≥0.85为中心性肥胖" : "男性：腰臀比&lt;0.9理想，≥0.95为中心性肥胖"}</p>
               <div className={"rounded-lg border px-2 py-1 " + colorMap[whrColor]}>腰臀比 = <strong>{whr}</strong>　{whrLabel}</div>
             </div>
           </div>
@@ -1196,14 +1196,14 @@ function RetirementStep({
         <CardTitle>打算什么时候退休？</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4 text-xs">
-        <p className="text-sm text-slate-400">
+        <p className="text-sm text-slate-300">
           退休年龄越早，养老时间越长，需要的总准备就越多；
           但早点规划、早点开始，后面每年需要准备的压力反而会更小。
         </p>
 
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-2">
-            <label className="block text-slate-400">
+            <label className="block text-slate-300">
               计划退休年龄（岁）
             </label>
             <input
@@ -1222,13 +1222,13 @@ function RetirementStep({
             <p className="text-sm font-semibold text-slate-100">
               {retire.retireAge} 岁
             </p>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[11px] text-slate-300">
               以当前年龄 {basic.age} 岁计算，距离退休大约还有{" "}
               {Math.max(0, retire.retireAge - basic.age)} 年。
             </p>
           </div>
-          <div className="rounded-xl border border-sky-100 bg-sky-50/80 p-3">
-            <p className="mb-1 text-[11px] font-semibold text-sky-800">
+          <div className="rounded-xl border border-sky-500/30 bg-sky-900/60 p-3">
+            <p className="mb-1 text-[11px] font-semibold text-sky-200">
               越早开始规划，越容易"以小搏大"
             </p>
             <p className="text-[11px] text-sky-100">
@@ -1273,13 +1273,13 @@ function IncomeReserveStep({
         <CardTitle>当前收入与已有养老储备</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4 text-xs">
-        <p className="text-sm text-slate-400">
+        <p className="text-sm text-slate-300">
           这一部分信息仅用于测算，系统不会自动保存到任何对外系统。
           即使不精确，只填写区间，也足以帮助我们看清大致的养老缺口。
         </p>
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-2">
-            <label className="block text-slate-400">
+            <label className="block text-slate-300">
               当前税前月收入（元）
             </label>
             <input
@@ -1299,15 +1299,15 @@ function IncomeReserveStep({
             <p className="text-sm font-semibold text-slate-100">
               约 {retire.monthlyIncome.toLocaleString()} 元/月
             </p>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[11px] text-slate-300">
               收入水平越高，未来养老金替代率通常越低，
               也更容易形成"生活品质降级"的落差感。
             </p>
           </div>
           <div className="space-y-3">
             <div className="space-y-1">
-              <p className="text-slate-400">社保与养老金预期</p>
-              <label className="flex items-center gap-2 text-[11px] text-slate-400">
+              <p className="text-slate-300">社保与养老金预期</p>
+              <label className="flex items-center gap-2 text-[11px] text-slate-300">
                 <input
                   type="checkbox"
                   checked={retire.hasBasicPension}
@@ -1320,7 +1320,7 @@ function IncomeReserveStep({
                 />
                 已正常缴纳城镇职工基本养老保险
               </label>
-              <label className="flex items-center gap-2 text-[11px] text-slate-400">
+              <label className="flex items-center gap-2 text-[11px] text-slate-300">
                 <input
                   type="checkbox"
                   checked={retire.hasEnterprisePension}
@@ -1335,7 +1335,7 @@ function IncomeReserveStep({
               </label>
             </div>
             <div className="space-y-1">
-              <p className="text-slate-400">目前专门为养老准备的大致资金</p>
+              <p className="text-slate-300">目前专门为养老准备的大致资金</p>
               <select
                 value={retire.existingReserveLevel}
                 onChange={(e) =>
@@ -1352,7 +1352,7 @@ function IncomeReserveStep({
                 <option value="mid">大约 10-30 万</option>
                 <option value="high">大约 30 万以上</option>
               </select>
-              <p className="text-[11px] text-slate-400">
+              <p className="text-[11px] text-slate-300">
                 包括银行存款、理财/基金、专门的养老保险/年金险等，
                 只看"心里为养老预留的那一笔"。
               </p>
@@ -1419,7 +1419,7 @@ function OverviewStep({
         <CardTitle>养老数据概览：寿命、健康寿命与基础养老金</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4 text-xs">
-        <p className="text-sm text-slate-400">
+        <p className="text-sm text-slate-300">
           系统根据近年公开统计口径、地区差异、您的生活习惯以及健康检测数据，
           为您推演出一个预期寿命与健康寿命区间。您也可以根据自己的判断，在下方手动微调。
         </p>
@@ -1429,13 +1429,13 @@ function OverviewStep({
           <button
             type="button"
             onClick={() => setExplainOpen("healthScore")}
-            className="space-y-2 info-card border-purple-500/30 bg-purple-900/30 p-4 text-left transition hover:bg-purple-50"
+            className="space-y-2 info-card border-purple-500/30 bg-purple-900/30 p-4 text-left transition hover:bg-purple-900/60"
           >
             <p className="text-[11px] text-purple-300">健康评分</p>
             <div className="flex items-baseline gap-2">
               <span className="text-2xl font-bold text-purple-100">{healthScore}</span>
               <span className="text-sm text-purple-300">分</span>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-purple-200 text-purple-800">{healthGrade}</span>
+              <span className="text-xs px-2 py-0.5 rounded-full bg-purple-500/30 text-purple-100">{healthGrade}</span>
             </div>
             <p className="text-[11px] text-purple-300">
               根据您的健康检测数据综合评估
@@ -1448,9 +1448,9 @@ function OverviewStep({
           <button
             type="button"
             onClick={() => setExplainOpen("life")}
-            className="space-y-2 info-card p-4 text-left transition hover:bg-slate-50"
+            className="space-y-2 info-card p-4 text-left transition hover:bg-slate-800/80"
           >
-            <p className="text-[11px] text-slate-500">预期寿命假设</p>
+            <p className="text-[11px] text-slate-300">预期寿命假设</p>
             <div className="flex items-baseline gap-1">
               <input
                 type="number"
@@ -1462,15 +1462,15 @@ function OverviewStep({
                     e.target.value ? Number(e.target.value) : null
                   )
                 }
-                className="w-16 rounded-lg border border-slate-200 px-1.5 py-1 text-sm"
+                className="w-16 rounded-lg border border-slate-500/50 bg-slate-800/80 px-1.5 py-1 text-sm text-slate-100"
               />
               <span className="text-sm">岁</span>
             </div>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[11px] text-slate-300">
               系统预估值约为 {expectedLife} 岁，
               已综合性别、地区、生活习惯及健康检测数据。
             </p>
-            <p className="text-[11px] text-slate-500">
+            <p className="text-[11px] text-slate-300">
               点击查看数据口径与出处
             </p>
           </button>
@@ -1478,7 +1478,7 @@ function OverviewStep({
           <button
             type="button"
             onClick={() => setExplainOpen("healthyLife")}
-            className="space-y-2 info-card border-emerald-500/30 bg-emerald-900/20 p-4 text-left transition hover:bg-emerald-50"
+            className="space-y-2 info-card border-emerald-500/30 bg-emerald-900/20 p-4 text-left transition hover:bg-emerald-900/60"
           >
             <p className="text-[11px] text-emerald-300">预期健康寿命</p>
             <div className="flex items-baseline gap-1">
@@ -1492,7 +1492,7 @@ function OverviewStep({
                     e.target.value ? Number(e.target.value) : null
                   )
                 }
-                className="w-16 rounded-lg border border-emerald-200 px-1.5 py-1 text-sm"
+                className="w-16 rounded-lg border border-emerald-500/50 bg-slate-800/80 px-1.5 py-1 text-sm text-slate-100"
               />
               <span className="text-sm">岁</span>
             </div>
@@ -1508,7 +1508,7 @@ function OverviewStep({
           <button
             type="button"
             onClick={() => setExplainOpen("pension")}
-            className="space-y-2 info-card border-sky-500/30 bg-sky-900/20 p-4 text-left transition hover:bg-sky-50"
+            className="space-y-2 info-card border-sky-500/30 bg-sky-900/20 p-4 text-left transition hover:bg-sky-900/60"
           >
             <p className="text-[11px] text-sky-300">基础养老收入测算</p>
             <p className="text-sm font-semibold text-sky-100">
@@ -1585,10 +1585,10 @@ function ExplainModal({
                 口径参考国际通用的<strong>Life expectancy at birth</strong>等统计指标，
                 并结合您选择的生活习惯做简化修正，便于唤起对"长寿风险"的直观感受。
               </p>
-              <p className="text-slate-400">
+              <p className="text-slate-300">
                 参考出处（权威公开数据）：
               </p>
-              <ul className="list-disc space-y-1 pl-5 text-slate-400">
+              <ul className="list-disc space-y-1 pl-5 text-slate-300">
                 <li>
                   WHO Global Health Observatory（预期寿命相关指标说明与数据入口）：
                   <a
@@ -1601,7 +1601,7 @@ function ExplainModal({
                   </a>
                 </li>
               </ul>
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[11px] text-slate-300">
                 提示：实际寿命受遗传、既往病史、医疗可及性、意外风险等影响，
                 本工具仅用于规划讨论，不作为医学或精算结论。
               </p>
@@ -1618,8 +1618,8 @@ function ExplainModal({
                 与可能更需要照护/医疗支持的时间。本工具的健康寿命是假设值，
                 用于测算养老方式与预算结构。
               </p>
-              <p className="text-slate-400">参考出处（权威公开数据）：</p>
-              <ul className="list-disc space-y-1 pl-5 text-slate-400">
+              <p className="text-slate-300">参考出处（权威公开数据）：</p>
+              <ul className="list-disc space-y-1 pl-5 text-slate-300">
                 <li>
                   WHO（健康寿命/健康预期寿命等相关统计口径与数据入口）：
                   <a
@@ -1632,7 +1632,7 @@ function ExplainModal({
                   </a>
                 </li>
               </ul>
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[11px] text-slate-300">
                 提示：健康寿命并不等同于"完全不生病"，只是以功能状态为核心的统计口径；
                 本工具用于引导养老照护与医疗预算讨论。
               </p>
@@ -1649,7 +1649,7 @@ function ExplainModal({
                 根据您填写的月收入，并结合是否缴纳基本养老保险/是否有企业年金，
                 用一个"养老金替代率"假设来得到月度养老金水平。
               </p>
-              <ul className="list-disc space-y-1 pl-5 text-slate-400">
+              <ul className="list-disc space-y-1 pl-5 text-slate-300">
                 <li>
                   若有基本养老保险：按约 <strong>45%</strong> 的替代率估算；
                 </li>
@@ -1660,7 +1660,7 @@ function ExplainModal({
                   退休后按预计寿命年限累积，得到"一生基础养老金总额"。
                 </li>
               </ul>
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[11px] text-slate-300">
                 提示：真实养老金受缴费年限、缴费基数、当地社平工资、计发办法等影响，
                 以社保部门最终核算为准。本工具的目的，是快速把话题从"未来不确定"
                 转为"缺口大概是多少、用什么方式补齐"。
@@ -1673,20 +1673,20 @@ function ExplainModal({
           title: "健康评分详情",
           body: (
             <div className="space-y-3 text-[12px] text-slate-300">
-              <div className="flex items-center gap-3 p-3 rounded-lg bg-purple-50">
+              <div className="flex items-center gap-3 p-3 rounded-lg bg-purple-900/60">
                 <div className="text-center">
                   <p className="text-3xl font-bold text-purple-100">{healthScore}</p>
                   <p className="text-xs text-purple-400">总分 100</p>
                 </div>
                 <div className="flex-1">
-                  <p className="font-semibold text-purple-800">评级：{healthGrade}</p>
+                  <p className="font-semibold text-purple-200">评级：{healthGrade}</p>
                   <p className="text-[11px] text-purple-400 mt-1">基于您的健康检测数据综合评估</p>
                 </div>
               </div>
 
               <div>
-                <p className="font-semibold text-slate-700 mb-1">评分逻辑说明：</p>
-                <ul className="list-disc pl-4 space-y-0.5 text-slate-600 text-[11px]">
+                <p className="font-semibold text-slate-400 mb-1">评分逻辑说明：</p>
+                <ul className="list-disc pl-4 space-y-0.5 text-slate-400 text-[11px]">
                   <li>基础分 60 分</li>
                   <li>BMI（18.5-24.9）：+15分；超重：-5分；肥胖：-15分</li>
                   <li>血压（理想值 &lt;120mmHg）：+15分；140-159：-15分；≥160：-20分</li>
@@ -1697,15 +1697,15 @@ function ExplainModal({
 
               {healthDetails && healthDetails.length > 0 && (
                 <div>
-                  <p className="font-semibold text-slate-700 mb-1">健康数据对预期寿命的影响：</p>
-                  <ul className="list-disc pl-4 space-y-0.5 text-slate-600 text-[11px]">
+                  <p className="font-semibold text-slate-400 mb-1">健康数据对预期寿命的影响：</p>
+                  <ul className="list-disc pl-4 space-y-0.5 text-slate-400 text-[11px]">
                     {healthDetails.map((d, i) => <li key={i}>{d}</li>)}
                   </ul>
                 </div>
               )}
 
               {healthSuggestions && healthSuggestions.length > 0 && (
-                <div className="rounded-lg border border-amber-200 bg-amber-50 p-3">
+                <div className="rounded-lg border border-amber-200 bg-amber-900/60 p-3">
                   <p className="font-semibold text-amber-200 mb-1">健康改善建议：</p>
                   <ul className="list-disc pl-4 space-y-0.5 text-amber-300 text-[11px]">
                     {healthSuggestions.map((s, i) => <li key={i}>{s}</li>)}
@@ -1713,7 +1713,7 @@ function ExplainModal({
                 </div>
               )}
 
-              <div className="text-[11px] text-slate-500">
+              <div className="text-[11px] text-slate-300">
                 <p>参考出处：Lancet 2016（BMI）、Framingham心脏研究（血压）、JAMA Cardiology 2019（心率）、WHO标准（腰臀比）</p>
               </div>
             </div>
@@ -1809,7 +1809,7 @@ function CityStep(props: LifeStepProps) {
           onClick={() => onChange({ cityChoice: "tier1" })}
         />
       </div>
-      <p className="mt-3 text-[11px] text-slate-400">
+      <p className="mt-3 text-[11px] text-slate-300">
         当前假设：您将在 {retire.retireAge} 岁左右在此城市进入正式退休状态。
         后续所有花费将基于该城市的平均生活成本水平估算。
       </p>
@@ -1834,12 +1834,12 @@ function CityOption({
       onClick={onClick}
       className={`flex h-full flex-col rounded-xl border p-3 text-left ${
         active
-          ? "border-blue-500 bg-blue-50/70 text-blue-900 shadow-sm"
-          : "border-slate-200 bg-white/70 text-slate-200"
+          ? "border-blue-500 bg-blue-900/60 text-blue-100 shadow-sm"
+          : "border-slate-600/50 bg-slate-800/60 text-slate-200"
       }`}
     >
-      <span className="mb-1 text-sm font-semibold">{label}</span>
-      <span className="text-[11px] text-slate-500">{desc}</span>
+      <span className={`mb-1 text-sm font-semibold ${active ? "text-blue-100" : "text-slate-100"}`}>{label}</span>
+      <span className={`text-[11px] ${active ? "text-blue-200" : "text-slate-300"}`}>{desc}</span>
     </button>
   );
 }
@@ -2069,13 +2069,13 @@ function InflationStep({
       confirmLabel="继续"
       showPrev
     >
-      <p className="mb-2 text-xs text-slate-400">
+      <p className="mb-2 text-xs text-slate-300">
         假设未来长期平均通胀率为 3%-4%，
         即便您现在每月花 8000 元维持生活品质，
         等到 {retire.retireAge} 岁退休时，
         可能需要 1.5 倍甚至 2 倍的金额才能维持同样水准。
       </p>
-      <p className="text-[11px] text-slate-500">
+      <p className="text-[11px] text-slate-300">
         从 {basic.age} 岁到 {retire.retireAge} 岁，大约还有 {yearsToRetire} 年。
         越早开始做养老规划，越能利用时间的力量，对冲通胀和不确定性。
       </p>
@@ -2309,12 +2309,12 @@ function TeethStep({
       confirmLabel="继续"
       showPrev
     >
-      <p className="mb-2 text-xs text-slate-400">
+      <p className="mb-2 text-xs text-slate-300">
         本工具在测算时，已经为您预留了
         <span className="font-semibold">"牙齿专项预算"</span>
         ，并均摊到每月支出中，避免未来突然一次性大额支出打乱养老节奏。
       </p>
-      <p className="text-[11px] text-slate-500">
+      <p className="text-[11px] text-slate-300">
         趁现在牙齿状况还不错，可以适当提前做检查和维护，
         也可以通过长期储蓄或保险方式，为未来可能的种牙支出预留一部分"弹性空间"。
       </p>
@@ -2352,11 +2352,11 @@ function EndOfLifeStep({
       confirmLabel="查看规划报告"
       showPrev
     >
-      <p className="mb-2 text-xs text-slate-400">
+      <p className="mb-2 text-xs text-slate-300">
         无论是居家宁养、安宁疗护，还是在专业机构完成最后的陪伴，
         都离不开一定的经济基础支撑。本工具已经在整体养老支出模型中，为这一阶段预留了预算。
       </p>
-      <p className="text-[11px] text-slate-500">
+      <p className="text-[11px] text-slate-300">
         接下来，我们将把前面所有关于
         "住在哪里、怎么生活、如何就医、要不要给晚辈红包"等选择，
         汇总成一份完整的《个人养老财富报告》，
@@ -2399,14 +2399,14 @@ function ScenarioCard({
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4 text-xs">
-        <p className="text-sm text-slate-400">{description}</p>
+        <p className="text-sm text-slate-300">{description}</p>
         {children}
         <div className="mt-4 grid gap-3 md:grid-cols-[2fr,1.2fr]">
           <div className="info-card p-4 text-[11px]">
             <p className="mb-1 font-semibold text-slate-300">
               在大约 {scenarioAge} 岁时，按当前所有选择测算：
             </p>
-            <p className="text-slate-400">
+            <p className="text-slate-300">
               每月合计养老支出约{" "}
               <span className="font-semibold">
                 {monthlyNeed.toLocaleString()} 元
@@ -2440,7 +2440,7 @@ function ScenarioCard({
             className={`rounded-xl border p-3 text-[11px] ${
               overSpend
                 ? "border-rose-200 bg-rose-50/70 text-rose-800"
-                : "border-emerald-200 bg-emerald-50/70 text-emerald-800"
+                : "border-emerald-200 bg-emerald-900/60/70 text-emerald-200"
             }`}
           >
             <p className="mb-1 font-semibold">
@@ -2508,18 +2508,18 @@ function SummaryStep({
       <CardContent className="space-y-5 text-xs">
         <div className="grid gap-4 md:grid-cols-[1.3fr,1.2fr]">
           <div className="space-y-3">
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-slate-300">
               基于您刚才关于
               <span className="font-semibold">
                 居住、饮食、旅行、爱好、医疗、照护与给晚辈支持
               </span>
               的所有选择，本工具为您生成了如下养老资金全景图：
             </p>
-            <div className="rounded-xl border border-amber-200 bg-amber-50/70 p-3">
+            <div className="rounded-xl border border-amber-500/50 bg-amber-900/60 p-3">
               <p className="mb-1 text-[11px] text-amber-200">
                 一生大致需要准备的养老总资金
               </p>
-              <p className="text-2xl font-bold text-amber-900">
+              <p className="text-2xl font-bold text-amber-100">
                 {totalNeed.toLocaleString()} 元
               </p>
               <p className="mt-1 text-[11px] text-amber-200">
@@ -2531,7 +2531,7 @@ function SummaryStep({
                 。
               </p>
             </div>
-            <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-3">
+            <div className="rounded-xl border border-slate-600/50 bg-slate-800/80 p-3">
               <p className="mb-1 text-[11px] text-slate-300">
                 可以预期的基础养老收入（养老金等）
               </p>
@@ -2539,19 +2539,19 @@ function SummaryStep({
                 约 {basePensionMonthly.toLocaleString()} 元/月，
                 一生合计约 {basePensionTotal.toLocaleString()} 元。
               </p>
-              <p className="mt-1 text-[11px] text-slate-500">
+              <p className="mt-1 text-[11px] text-slate-300">
                 这部分主要覆盖"生存线"，包括吃穿住行和基础医疗，
                 难以完全承担旅游、兴趣爱好、给晚辈支持等"生活线"和"梦想线"支出。
               </p>
             </div>
-            <div className="rounded-xl border border-rose-200 bg-rose-50/80 p-3">
-              <p className="mb-1 text-[11px] text-rose-800">
+            <div className="rounded-xl border border-rose-500/50 bg-rose-900/60 p-3">
+              <p className="mb-1 text-[11px] text-rose-200">
                 按当前设想，您的养老储备缺口约为
               </p>
-              <p className="text-2xl font-bold text-rose-900">
+              <p className="text-2xl font-bold text-rose-100">
                 {gap.toLocaleString()} 元
               </p>
-              <p className="mt-1 text-[11px] text-rose-800">
+              <p className="mt-1 text-[11px] text-rose-200">
                 如果从现在 {basic.age} 岁开始，到 {retire.retireAge} 岁退休，
                 还有 {yearsToRetire} 年时间，
                 每月平均需要额外准备约{" "}
@@ -2563,8 +2563,8 @@ function SummaryStep({
             </div>
           </div>
           <div className="space-y-3">
-            <div className="h-56 rounded-xl border border-slate-200 bg-white p-3">
-              <p className="mb-1 text-[11px] text-slate-400">
+            <div className="h-56 rounded-xl border border-slate-600/50 bg-white p-3">
+              <p className="mb-1 text-[11px] text-slate-300">
                 从退休到高龄的资金曲线
               </p>
               <ResponsiveContainer width="100%" height="100%">
@@ -2612,11 +2612,11 @@ function SummaryStep({
                 </AreaChart>
               </ResponsiveContainer>
             </div>
-            <div className="rounded-xl border border-slate-200 bg-white/80 p-3">
+            <div className="rounded-xl border border-slate-600/50 bg-slate-800/80 p-3">
               <p className="mb-1 text-[11px] text-slate-300">
                 每月支出结构（示意）
               </p>
-              <ul className="space-y-0.5 text-[11px] text-slate-400">
+              <ul className="space-y-0.5 text-[11px] text-slate-200">
                 <li>
                   生存花费（吃穿住行+基础医疗）约{" "}
                   {Math.round(
@@ -2650,11 +2650,11 @@ function SummaryStep({
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <div className="rounded-xl border border-slate-200 bg-white/80 p-3">
-            <p className="mb-1 text-[11px] font-semibold text-slate-200">
+          <div className="rounded-xl border border-slate-600/50 bg-slate-800/80 p-3">
+            <p className="mb-1 text-[11px] font-semibold text-slate-100">
               专业顾问可基于本报告，如何衔接保险方案？
             </p>
-            <ul className="list-disc space-y-0.5 pl-4 text-[11px] text-slate-400">
+            <ul className="list-disc space-y-0.5 pl-4 text-[11px] text-slate-200">
               <li>
                 用上图"年度资金缺口"曲线，对应
                 <span className="font-semibold">年金险/养老年金</span>
@@ -2671,15 +2671,15 @@ function SummaryStep({
                 ，以较小保费撬动更高保额，解决重疾、身故与传承安排。
               </li>
             </ul>
-            <p className="mt-1 text-[11px] text-slate-400">
+            <p className="mt-1 text-[11px] text-slate-300">
               本工具不涉及具体产品条款与收益演示，所有保险责任和利益以正式条款及精算演示为准。
             </p>
           </div>
-          <div className="space-y-2 rounded-xl border border-slate-200 bg-slate-50/80 p-3">
+          <div className="space-y-2 rounded-xl border border-slate-600/50 bg-slate-800/80/80 p-3">
             <p className="text-[11px] font-semibold text-slate-200">
               下一步行动建议
             </p>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[11px] text-slate-300">
               1）与专业顾问一对一沟通，基于当前缺口
               <span className="font-semibold">
                 （约 {gap.toLocaleString()} 元）
@@ -2690,11 +2690,11 @@ function SummaryStep({
               </span>
               ；
             </p>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[11px] text-slate-300">
               2）结合年金、养老年金、增额终身寿险与杠杆终身寿险，
               设计出一份覆盖"生存线 + 生活线 + 梦想线"的组合方案；
             </p>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[11px] text-slate-300">
               3）每隔 2-3 年复盘一次本报告，随着收入、家庭结构和健康状况变化，动态微调养老蓝图。
             </p>
             <div className="mt-2 flex flex-wrap gap-2">
@@ -2712,7 +2712,7 @@ function SummaryStep({
           </div>
         </div>
 
-        <p className="text-[11px] text-slate-400">
+        <p className="text-[11px] text-slate-300">
           声明：本工具为养老测算辅助工具，所有结果仅供参考，不构成投资、理财或保险建议。
           具体保险责任、利益与风险请以正式条款与投保提示为准。
         </p>
