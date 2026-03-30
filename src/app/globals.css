@@ -68,24 +68,44 @@ body {
   border-radius: 12px;
 }
 
-/* 标签按钮 */
+/* 标签按钮 - 触屏优化 */
 .tag-btn {
   background: rgba(30, 30, 50, 0.5);
   border: 1px solid rgba(100, 100, 150, 0.3);
   color: rgba(248, 250, 252, 0.8);
   border-radius: 20px;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
+  min-height: 44px; /* iOS触屏最小点击区域 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.tag-btn:hover {
-  background: rgba(99, 102, 241, 0.2);
-  border-color: rgba(99, 102, 241, 0.5);
+/* 仅鼠标设备显示hover效果，避免触屏hover粘滞 */
+@media (hover: hover) {
+  .tag-btn:hover {
+    background: rgba(99, 102, 241, 0.2);
+    border-color: rgba(99, 102, 241, 0.5);
+  }
+}
+
+.tag-btn:active {
+  transform: scale(0.96);
+  background: rgba(99, 102, 241, 0.35);
+  border-color: rgba(99, 102, 241, 0.7);
 }
 
 .tag-btn.active {
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(139, 92, 246, 0.3) 100%);
   border-color: #8b5cf6;
   color: #f8fafc;
+}
+
+.tag-btn.active:active {
+  transform: scale(0.96);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.45) 0%, rgba(139, 92, 246, 0.45) 100%);
 }
 
 /* 步骤指示器 */

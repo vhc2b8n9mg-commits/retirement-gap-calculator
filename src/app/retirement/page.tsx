@@ -1023,7 +1023,7 @@ function BasicInfoStep({
           <div className="grid gap-4 md:grid-cols-2 text-xs mt-4">
             <div className="space-y-2">
               <label className="block text-slate-300">生活习惯（可多选）</label>
-              <div className="grid grid-cols-2 gap-1.5">
+              <div className="grid grid-cols-2 gap-3">
                 {[
                   ["noSmoke", "不吸烟"],
                   ["lessDrink", "少饮酒"],
@@ -1037,20 +1037,16 @@ function BasicInfoStep({
                     <button
                       key={key}
                       type="button"
-                      onClick={() => {
-                        const exists = checked;
+                      onClick={(e) => {
+                        e.preventDefault();
                         onChange({
                           ...basic,
-                          habits: exists
+                          habits: checked
                             ? basic.habits.filter((h) => h !== key)
                             : [...basic.habits, key as HabitKey]
                         });
                       }}
-                      className={`tag-btn px-3 py-1.5 text-[11px] ${
-                        checked
-                          ? "border-emerald-500 bg-emerald-900/60 text-emerald-300"
-                          : "border-slate-500 text-slate-300"
-                      }`}
+                      className={`tag-btn px-4 py-3 text-sm cursor-pointer ${checked ? "active" : ""}`}
                     >
                       {label}
                     </button>
@@ -1086,7 +1082,7 @@ function BasicInfoStep({
                 }
                 className="w-full dark-select px-3 py-2 text-sm"
               >
-                <option value="employee">受薪族</option>
+                <option value="employee">工薪族</option>
                 <option value="self">个体经营</option>
                 <option value="freelance">自由职业</option>
                 <option value="other">其他</option>
